@@ -1,12 +1,17 @@
 import useInput from "../../hooks/useInput";
 import { useRequest } from "../../hooks/request-hook";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
+import { AuthContext } from "../../context/authcontext";
+import { useContext } from "react";
+import { useNavigate } from "react-router-dom";
 const isEmail = (value) => value.includes("@");
 const isPassword = (value) => value.trim().length >= 5;
 let formValid = false;
 
 const Login = () => {
   // <NavBar />
+  const navigate = useNavigate()
+  const auth = useContext(AuthContext)
 
   const { isError, clearError, sendRequest } = useRequest();
 
@@ -51,6 +56,8 @@ const Login = () => {
     );
 
     console.log(response);
+    auth.login(response.user.id);
+    navigate('/tasks')
     resetEmail();
     resetPassword();
   };
@@ -96,7 +103,7 @@ const Login = () => {
         <button type="submit" disabled={!formValid} className="submit">
           Submit
         </button>
-        <Link to="/login"><button className="submit">SignUp</button></Link>
+        <Link to="/"><button className="submit">SignUp</button></Link>
       </div>
     </form>
   );

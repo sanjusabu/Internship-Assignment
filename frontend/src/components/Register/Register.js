@@ -2,6 +2,8 @@
 import useInput from "../../hooks/useInput";
 import { useRequest } from "../../hooks/request-hook";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+
 const isNotEmpty = value =>value.trim() !== '';
 const isEmail = value => value.includes('@');
 const isPassword = value => value.trim().length >= 5;
@@ -11,6 +13,7 @@ let formValid = false;
 
 const Register =()=>
 {
+  const navigate = useNavigate()
   const {isError,clearError,sendRequest} =  useRequest()
   // const auth = useContext(AuthContext)
     const {
@@ -82,7 +85,8 @@ const Register =()=>
           {'Content-Type': 'application/json'}
           )
           
-        console.log(nameValue,emailValue,passwordValue,numberValue)
+        // console.log(nameValue,emailValue,passwordValue,numberValue)
+        navigate('/login')
         resetName()
         resetEmail()
         resetPassword()

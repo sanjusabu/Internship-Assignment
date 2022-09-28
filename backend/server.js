@@ -2,6 +2,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const usersRoutes = require("./routes/user");
+const tasksRoutes = require("./routes/tasks");
 const cors = require('cors')
 
 const app = express();
@@ -20,6 +21,7 @@ app.use((req, res, next) => {
 }); //cors error
 
 app.use("/users", usersRoutes);
+app.use("/tasks", tasksRoutes);
 
 app.use((error, req, res, next) => {
   if (res.headerSent) {
