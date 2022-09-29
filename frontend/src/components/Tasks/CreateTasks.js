@@ -1,21 +1,39 @@
 import { useRequest } from "../../hooks/request-hook";
 import useInput from "../../hooks/useInput";
+import { useEffect,useState } from "react";
+
 const isNotEmpty = (value) => value.trim() !== "";
 
 const CreateTasks = () => {
   const { sendRequest } = useRequest();
 //   const [checkstartDate,startDates] = useState('') 
-//   const [checkendDate,endDates] = useState('') 
+  const [formValid,setformValid] = useState(false) 
   const { value: taskname,valueChangeHandler:taskChange,reset:resetTask } = useInput(isNotEmpty);
   const { value: taskdescription,valueChangeHandler:desChange,reset:resetDesc } = useInput(isNotEmpty);
   const { value: startDate,valueChangeHandler:startChange,reset:resetStart } = useInput(isNotEmpty);
   const { value: endDate,valueChangeHandler:endChange,reset:resetEnd } = useInput(isNotEmpty);
   const { value: priorityvalue,valueChangeHandler:priorityChange,reset:resetPriority,BlurHandler:blur } = useInput(isNotEmpty);
   const { value: statusvalue,valueChangeHandler:statusChange,reset:resetStatus} = useInput(isNotEmpty);
+  useEffect(()=>{
+    if(startDate && endDate )
+{    const x = new Date(startDate)
+    const y = new Date(endDate)
+      if(x>y){
+        setformValid(false)
+      }
+      else{
+        setformValid(true)
+      }
+     
+  }
+},[startDate,endDate])
+
 
   const submitHandler = async (e) => {
-    e.preventDefault();
+    // e.preventDefault();
     if (localStorage.hasOwnProperty("userid")) {
+     
+      // console.log(typeof(startDate),endDate)
       const response = await sendRequest(
         "http://localhost:5002/tasks/create",
         "POST",
@@ -30,7 +48,7 @@ const CreateTasks = () => {
         }),
         { "Content-Type": "application/json" }
       );
-      console.log(response)
+      // console.log(response)
       resetTask()
       resetDesc()
       resetEnd()
@@ -67,7 +85,7 @@ const CreateTasks = () => {
                     <option value ="Done">Done</option>
         </select>
 
-        <button type="submit">Submit Task</button>
+        <button disabled={!formValid} type="submit">Submit Task</button>
       </form>
     </>
   );

@@ -57,5 +57,19 @@ const getTasks = async(req,res,next)=>{
     // console.log(tasks)
     res.json({tasks})
 }
+const updateTasks= async(req,res,next)=>{
+      const {userid,taskname,status}=req.body
+      let newstatus= status.slice(0,status.length-1)
+      console.log(newstatus)
+   
+          await TaskModel.updateOne({userid:userid,taskname:taskname},{$set:{status:newstatus}})
+       
+      let tasks = await TaskModel.find({userid,taskname})
+      if(tasks){
+      res.json(true)
+      }
+      console.log(tasks);
+}
 exports.create= create
 exports.getTasks= getTasks
+exports.updateTasks= updateTasks
