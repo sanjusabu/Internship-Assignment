@@ -70,6 +70,12 @@ const updateTasks= async(req,res,next)=>{
       }
       console.log(tasks);
 }
+
+const deleteTasks = async(req,res,next)=>{
+  const {userid,taskname}=req.body
+  await TaskModel.deleteOne({userid:userid,taskname:taskname})
+}
 exports.create= create
 exports.getTasks= getTasks
 exports.updateTasks= updateTasks
+exports.deleteTasks=deleteTasks

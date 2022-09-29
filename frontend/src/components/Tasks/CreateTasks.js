@@ -59,33 +59,45 @@ const CreateTasks = () => {
   };
   return (
     <>
-      <form onSubmit={submitHandler}>
-        <label for="name">Task Name</label>
-        <input id="name" type="text" value={taskname} onChange={taskChange}/>
-        <label for="description">Task Description</label>
-        <input id="description" type="text" value={taskdescription} onChange={desChange}/>
-        <label for="start">Start Date</label>
-        <input id="start" type="date" value={startDate} onChange={startChange}/>
-        <label for="end">End Date</label>
-        
-        <input id="end" type="date" value={endDate} onChange={endChange}/>
-        <label for="Priority">Choose the Priority</label>
-        <select name="Priority" id="Priority" value={priorityvalue} onChange={priorityChange} >
+      <form onSubmit={submitHandler} className="form">
+      <div className="input-container ic3">
+        <label for="name" style={{color:"black"}}>Task Name</label>
+        <input id="name" className="input" type="text" value={taskname} onChange={taskChange}/>
+      </div>
+        <div className="input-container ic3">
+        <label for="description"  style={{color:"black"}}>Task Description</label>
+        <input id="description" type="text" className="input" value={taskdescription} onChange={desChange}/>
+        </div>
+        <div className="input-container ic3">
+          <label for="start" style={{color:"black"}}>Start Date</label>
+        <input id="start" type="date" className="input" value={startDate} onChange={startChange}/>
+        </div>
+        <div className="input-container ic3">
+        <label for="end" style={{color:"black"}}>End Date</label>
+        <input id="end" type="date" className="input" value={endDate} onChange={endChange}/>
+        </div>
+        <div className="input-container ic3">
+        <label for="Priority" style={{color:"black"}}>Choose the Priority</label>
+        <select name="Priority" className="input" id="Priority" value={priorityvalue} onChange={priorityChange} >
           <option> Select--an--option</option>
           <option value="low">Low</option>
           <option value="medium">Medium</option>
           <option value="high">High</option>
         </select>
-        <label for="status">Task Status</label>
-        <select name="status" id="status" value={statusvalue} onChange={statusChange} >
+        </div>
+        <div className="input-container ic3">
+        <label for="status" style={{color:"black"}}>Task Status</label>
+        <select name="status" className="input" id="status" value={statusvalue} onChange={statusChange} >
          
                     <option>Select Status</option>
                     <option value="Planned">Planned</option>
                     <option value ="Doing">Doing</option>
                     <option value ="Done">Done</option>
         </select>
-
-        <button disabled={!formValid} type="submit">Submit Task</button>
+        </div>
+        
+        <button className="button-87" disabled={!formValid} type="submit">Submit Task</button>
+        
       </form>
     </>
   );

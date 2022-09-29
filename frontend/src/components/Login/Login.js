@@ -63,7 +63,7 @@ const Login = () => {
   };
   return (
     <form onSubmit={submitHandler}>
-      <div className="loginform">
+      <div className="form">
         <div className="title">Login</div>
 
         <div className="input-container ic1">
@@ -103,7 +103,7 @@ const Login = () => {
         <button type="submit" disabled={!formValid} className="submit">
           Submit
         </button>
-        <Link to="/"><button className="submit">SignUp</button></Link>
+        <Link to="/"><button className="submit">Switch to Register</button></Link>
       </div>
     </form>
   );

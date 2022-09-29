@@ -149,7 +149,7 @@ const Register =()=>
     </div>
     <button type="submit" disabled={!formValid} className="submit">Submit</button>
 
-   <Link to="/login"><button className="submit">Login</button></Link>
+   <Link to="/login"><button className="submit">Switch to Login</button></Link>
   </div>
   </form>
   </>

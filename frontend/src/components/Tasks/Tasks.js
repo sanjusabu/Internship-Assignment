@@ -5,6 +5,7 @@ import useInput from "../../hooks/useInput"
 // import Charts from "./Charts"
 import {Chart as ChartJs, Tooltip, Title, ArcElement, Legend} from 'chart.js';
 import { Pie } from 'react-chartjs-2';
+import Navbar from '../NavBar/Navbar'
 ChartJs.register(
   Tooltip, Title, ArcElement, Legend
 );
@@ -12,22 +13,7 @@ ChartJs.register(
 const isNotEmpty = (value) => value.trim() !== "";
 
 const Tasks =()=>{
-    const data = {
-        datasets: [{
-            data: [10, 20, 30],
-            backgroundColor:[
-              'red',
-              'blue',
-              'yellow'
-            ]
-        },
-      ],
-      labels: [
-          'Red',
-          'Yellow',
-          'Blue'
-      ], 
-    };
+   
 
     const {sendRequest} = useRequest()
     const [Tasks,setTasks] = useState([])
@@ -105,6 +91,22 @@ const Tasks =()=>{
     const closeHandler=()=>{
         setshow(false)
     }
+    const data = {
+        datasets: [{
+            data: [c1, c2, c3],
+            backgroundColor:[
+              'red',
+              'blue',
+              'yellow'
+            ]
+        },
+      ],
+      labels: [
+          'Low',
+          'Medium',
+          'High'
+      ], 
+    };
     const saveHandler=async(e)=>{
         // console.log(e.target.value,statusvalue)
         window.location.reload()
@@ -122,48 +124,66 @@ const Tasks =()=>{
                     "Content-Type": "application/json",
                 }
                 );
-                if(responseData){
-                // setLoading(false)
-                }
+              
             }
+    }
+    const deleteHandler=async(e)=>{
+    window.location.reload()
+        if (localStorage.hasOwnProperty("userid")) {
+            const responseData = await sendRequest(
+                'http://localhost:5002/tasks/deleteTasks',
+                'POST',
+                JSON.stringify({
+                    userid: localStorage.getItem("userid"),
+                    taskname:e.target.value
+                }),
+                {
+                    "Content-Type": "application/json",
+                }
+                );
+             
+            }
+            
     }
     let i=0
     return (
         <>
-        
-        {/* <Charts ct1={c1} ct2={c2} ct3={c3}/> */}
-        
-       <div className="any" style={{width:'40%', height:'40%'}}>
+        <Navbar />
+       <div className="any" style={{width:'25%', height:'25%'}}>
         <Pie data={data} />
        </div>
         {/* {console.log(Tasks)} */}
-        <h1>Tasks</h1>
+        <h1 style={{textAlign:"center",color:"red",textDecoration:"underline"}}>All Tasks</h1>
        
         {show && <CreateTasks />}
-        <div> 
-            <button onClick={showHandler}>Add Tasks</button>
-        <button onClick={closeHandler}>Close</button>
+        <div className="auto"> 
+        <button className="button-20" onClick={showHandler}>Add Tasks</button>
+        <button className="button-20" onClick={closeHandler}>Close</button>
         </div>
         {/* {loading && <p>Loading.. Please Wait</p>} */}
         { Tasks.length!=0 && Tasks?.map(data=>{
             i++
-            return(<div >
-                 <h2>{data.taskname}</h2>
-                 <p >{data.taskdes}</p>
-                 <h4 >{data.startDate} </h4>
-                <h4>{data.endDate}</h4>
-                <h4>{data.priority}</h4>
+            return(<div className="options">
+                 <h2 className="col">Task Name: {data.taskname}</h2>
+                 <h4 className="col">Task Description: {data.taskdes}</h4>
+                 <h4 className="col">Start Date: {data.startDate} </h4>
+                <h4 className="col">End Date: {data.endDate}</h4>
+                <h4 className="col">Priority: {data.priority}</h4>
                 {/* <h4>Current Status: {data.status}</h4> */}
-                 <select value={statusvalue} onChange={statusChange}>
+                 <select value={statusvalue} onChange={statusChange} className="select">
                  <option>Current Status: {data.status}</option>
                   <option value={"Planned"+i}>Planned</option>
                     <option value ={"Doing"+i}>Doing</option>
                     <option value ={"Done"+i}>Done</option>
                  </select>
-                <button value={data.taskname} onClick={saveHandler}>Save Changes</button>
+                 <br></br>
+                
+                <button className="button-87" value={data.taskname} onClick={saveHandler}>Save Changes</button> 
+                {/* //used for saving status of work} */}
+                <button className="button-87" value={data.taskname} onClick={deleteHandler}>Delete Changes</button>
+            
                </div>)
                 
-            
         })}
         </>
     )

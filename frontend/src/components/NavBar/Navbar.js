@@ -1,56 +1,52 @@
-import React from "react";
-import { Link, useNavigate } from "react-router-dom";
-// import { AuthContext } from "../../context/authcontext";
-// import { useContext } from "react";
-const NavBar = () => {
-//   const auth = useContext(AuthContext);
-//   const navigate = useNavigate();
-//   const logoutHandler = () => {
-//     if (auth.isLoggedIn) {
-//       auth.logout();
-//       localStorage.removeItem("userid");
-//       navigate("/Home");
-//     }
-//   };
-  return (
-    <div>
-      <nav className="navbar navbar-expand-lg navbar-light bg-dark">
-        <div className="container-fluid">
-         
-          <button
-            className="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
-            <span className="navbar-toggler-icon"></span>
-          </button>
-          <div className="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-              <li className="nav-item">
-                <Link className="nav-link active" to="/login">
-                  Login
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link className="nav-link active" to="/register">
-                  Register
-                </Link>
-              </li> 
-            </ul>
-            {/* <li className="nav-item loggout">
-              <button className="btn btn-danger logg" onClick={logoutHandler}>
-                Logout
-              </button> 
-             </li> */}
-          </div>
-        </div>
-      </nav>
-    </div>
-  );
-};
+import { useState,useContext } from "react";
+import "./navbar.css";
+import {Link} from 'react-router-dom'
+import { AuthContext } from "../../context/authcontext";
+import { useNavigate } from "react-router-dom";
+const Navbar= ()=> {
+  const navigate = useNavigate()
+  const auth = useContext(AuthContext)
+  const logoutHandler =()=>{
+    auth.logout()
+    localStorage.removeItem("userid");
+    navigate("/");
+  }
+  const [isNavExpanded, setIsNavExpanded] = useState(false);
 
-export default NavBar;
+  return (
+    <nav className="navigation">
+      <Link to="/tasks" style={{textDecoration:"none",color:"white",fontSize:"large",margin:"0.2rem"}}>Home</Link>
+      <button
+        className="hamburger"
+        onClick={() => {
+          setIsNavExpanded(!isNavExpanded);
+        }}
+      >
+        {/* icon from Heroicons.com */}
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          className="h-5 w-5"
+          viewBox="0 0 20 20"
+          fill="white"
+        >
+          <path
+            fillRule="evenodd"
+            d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM9 15a1 1 0 011-1h6a1 1 0 110 2h-6a1 1 0 01-1-1z"
+            clipRule="evenodd"
+          />
+        </svg>
+      </button>
+      <div
+        className={
+          isNavExpanded ? "navigation-menu expanded" : "navigation-menu"
+        }
+      >
+       
+        <button className="button-20" onClick={logoutHandler}>Logout</button>
+         
+      </div>
+    </nav>
+  );
+}
+
+export default Navbar

@@ -36,7 +36,7 @@ function App() {
       <Router>
         <Routes>
           <Route path="/login" element={<Login />}></Route>
-          {/* <Route path="/register" element={<Register />}></Route> */}
+          <Route path="/register" element={<Register />}></Route>
           <Route path="/" element={<Register />}></Route>
         </Routes>
       </Router>
@@ -46,6 +46,7 @@ function App() {
       <Router>
         <Routes>
           <Route path="/tasks" element={<Tasks />}></Route>
+          <Route path="/" element={<Tasks />}></Route>
         </Routes>
       </Router>
     );
