@@ -1,3 +1,4 @@
+require('dotenv').config()
 const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
@@ -31,8 +32,8 @@ app.use((error, req, res, next) => {
   res.json({ message: error.message || "An unknown error occurred!" });
 });
 
-const dbUrl ="mongodb+srv://SANJU:sanju_123456@cluster0.f8yjf.mongodb.net/InternShipProject?retryWrites=true&w=majority";
-
+console.log(process.env.USER,process.env.DATABASE)
+const dbUrl ="mongodb+srv://"+process.env.USER+":"+process.env.PASSWORD+"@cluster0.f8yjf.mongodb.net/"+process.env.DATABASE+"?retryWrites=true&w=majority";
 mongoose.connect(dbUrl, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => {
     console.log("MongoDB connected");

@@ -5,6 +5,8 @@ import useInput from "../../hooks/useInput"
 // import Charts from "./Charts"
 import {Chart as ChartJs, Tooltip, Title, ArcElement, Legend} from 'chart.js';
 import { Pie } from 'react-chartjs-2';
+import { Bar } from "react-chartjs-2";
+import 'chart.js/auto';
 import Navbar from '../NavBar/Navbar'
 ChartJs.register(
   Tooltip, Title, ArcElement, Legend
@@ -22,6 +24,9 @@ const Tasks =()=>{
     const [c1,setc1] = useState(0)
     const [c2,setc2] = useState(0)
     const [c3,setc3] = useState(0)
+    const [cn1,setcn1] = useState(0)
+    const [cn2,setcn2] = useState(0)
+    const [cn3,setcn3] = useState(0)
     const [show,setshow] = useState(false)
     const { value: statusvalue,valueChangeHandler:statusChange,reset:resetStatus} = useInput(isNotEmpty);
     
@@ -61,6 +66,7 @@ const Tasks =()=>{
                           let newsarr=[]
                           arr= jsonArrayTo2D(responseData.tasks)
                           newarr=responseData.tasks.map(data=>{return(data.priority)})
+                          newsarr=responseData.tasks.map(data=>{return(data.status)})
                         //   console.log(newarr)
                           let count1=0,count2=0,count3=0;
                           for(let i =0;i<newarr.length;i++){
@@ -68,15 +74,19 @@ const Tasks =()=>{
                               if(newarr[i]==='medium'){count2++}
                               if(newarr[i]==='high'){count3++}
                             }
-                            newsarr.push(['Priority','Count'])
-                            newsarr.push(['Low',count1])
-                            newsarr.push(['Medium',count2])
-                            newsarr.push(['High',count3])
-                            setarray(newsarr)
+                            let ct1=0,ct2=0,ct3=0;
+                            for(let i =0;i<newarr.length;i++){
+                                if(newsarr[i]==='Planned'){ct1++}
+                                if(newsarr[i]==='Doing'){ct2++}
+                                if(newsarr[i]==='Done'){ct3++}
+                              }
                           setc1(count1)
                           setc2(count2)
                           setc3(count3)
-                        // console.log(newsarr)
+                          setcn1(ct1)
+                          setcn2(ct2)
+                          setcn3(ct3)
+                        console.log(ct1,ct2,ct3)
                     } }catch (err) {
                         console.log(err)
           }
@@ -95,9 +105,9 @@ const Tasks =()=>{
         datasets: [{
             data: [c1, c2, c3],
             backgroundColor:[
-              'red',
-              'blue',
-              'yellow'
+              '#3c005a',
+              '#00592D',
+              '#D22B2B'
             ]
         },
       ],
@@ -105,6 +115,22 @@ const Tasks =()=>{
           'Low',
           'Medium',
           'High'
+      ], 
+    };
+    const statusData = {
+        datasets: [{
+            data: [cn1, cn2, cn3], 
+            backgroundColor:[
+              '#47B39C',
+              '#FFBF00',
+              'green'
+            ]
+        },
+    ],
+      labels: [
+          'Planned',
+          'Doing',
+          'Done'
       ], 
     };
     const saveHandler=async(e)=>{
@@ -149,9 +175,16 @@ const Tasks =()=>{
     return (
         <>
         <Navbar />
-       <div className="any" style={{width:'25%', height:'25%'}}>
+       <div className="first">
         <Pie data={data} />
        </div>
+
+       <div className="second">
+        <Pie data={statusData} />
+       </div>
+        <h2 style={{textAlign:"left"}}>Priority of Tasks</h2>
+        <h2 style={{textAlign:"right"}}>Task Status</h2>
+       {/* {console.log(statusData.datasets.map(p=>p.data))} */}
         {/* {console.log(Tasks)} */}
         <h1 style={{textAlign:"center",color:"red",textDecoration:"underline"}}>All Tasks</h1>
        
@@ -160,16 +193,16 @@ const Tasks =()=>{
         <button className="button-20" onClick={showHandler}>Add Tasks</button>
         <button className="button-20" onClick={closeHandler}>Close</button>
         </div>
-        {/* {loading && <p>Loading.. Please Wait</p>} */}
+      
         { Tasks.length!=0 && Tasks?.map(data=>{
             i++
             return(<div className="options">
-                 <h2 className="col">Task Name: {data.taskname}</h2>
-                 <h4 className="col">Task Description: {data.taskdes}</h4>
-                 <h4 className="col">Start Date: {data.startDate} </h4>
-                <h4 className="col">End Date: {data.endDate}</h4>
-                <h4 className="col">Priority: {data.priority}</h4>
-                {/* <h4>Current Status: {data.status}</h4> */}
+                 <h2 style={{color:"black",fontSize:"2rem"}}>Task Name: {data.taskname}</h2>
+                 <h4 style={{color:"black",fontSize:"1.3rem"}}>Task Description: {data.taskdes}</h4>
+                 <h4 style={{color:"black",fontSize:"1.5rem"}}>Start Date: {data.startDate} </h4>
+                <h4 style={{color:"black",fontSize:"1.5rem"}}>End Date: {data.endDate}</h4>
+                <h4 style={{color:"black",fontSize:"1.5rem"}}>Priority: {data.priority}</h4>
+              
                  <select value={statusvalue} onChange={statusChange} className="select">
                  <option>Current Status: {data.status}</option>
                   <option value={"Planned"+i}>Planned</option>

@@ -274,3 +274,17 @@ select::-ms-expand {
   opacity: .65;
   pointer-events: none;
 }
+.first{
+  width:20%;
+  height:20%;
+  float:left;
+  
+}
+
+.second{
+  width:20%;
+  height:20%;
+  float:right;
+  /* margin-right: 0; */
+  /* position: relative; */
+}
