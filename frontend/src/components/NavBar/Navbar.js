@@ -15,7 +15,7 @@ const Navbar= ()=> {
 
   return (
     <nav className="navigation">
-      <Link to="/tasks" style={{textDecoration:"none",color:"white",fontSize:"large",margin:"0.2rem"}}>Home</Link>
+      {/* <Link to="/tasks" style={{textDecoration:"none",color:"white",fontSize:"large",margin:"0.2rem"}}>Home</Link> */}
       <button
         className="hamburger"
         onClick={() => {

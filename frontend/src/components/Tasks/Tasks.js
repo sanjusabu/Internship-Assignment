@@ -29,6 +29,7 @@ const Tasks =()=>{
     const [cn3,setcn3] = useState(0)
     const [show,setshow] = useState(false)
     const { value: statusvalue,valueChangeHandler:statusChange,reset:resetStatus} = useInput(isNotEmpty);
+    const { value: sortvalue,valueChangeHandler:sortChange,reset:resetSort} = useInput(isNotEmpty);
     
     useEffect(()=>{
         const fetchTasks =async()=>{
@@ -122,7 +123,7 @@ const Tasks =()=>{
             data: [cn1, cn2, cn3], 
             backgroundColor:[
               '#47B39C',
-              '#FFBF00',
+              'orange',
               'green'
             ]
         },
@@ -152,6 +153,25 @@ const Tasks =()=>{
                 );
               
             }
+    }
+    const sortHandler=async(e)=>{
+        console.log(e.target.value)
+        if (localStorage.hasOwnProperty("userid")) {
+            const responseData = await sendRequest(
+                'http://localhost:5002/tasks/sortTasks',
+                'POST',
+                JSON.stringify({
+                    userid: localStorage.getItem("userid"),
+                    status:e.target.value
+                }),
+                {
+                    "Content-Type": "application/json",
+                }
+                );
+                console.log(responseData.sorted)
+                setTasks(responseData.sorted)
+            }
+            
     }
     const deleteHandler=async(e)=>{
     window.location.reload()
@@ -184,10 +204,18 @@ const Tasks =()=>{
        </div>
         <h2 style={{textAlign:"left"}}>Priority of Tasks</h2>
         <h2 style={{textAlign:"right"}}>Task Status</h2>
-       {/* {console.log(statusData.datasets.map(p=>p.data))} */}
-        {/* {console.log(Tasks)} */}
+    
         <h1 style={{textAlign:"center",color:"red",textDecoration:"underline"}}>All Tasks</h1>
-       
+        <div className="dems">
+        <select value={sortvalue} onChange={sortChange} className="selects">
+                <option>Sort on Status</option>
+                <option value={"Planned"}>Planned</option>
+                <option value ={"Doing"}>Doing</option>
+                <option value ={"Done"}>Done</option>
+        </select>
+        <button className="button-20" value={sortvalue} onClick={sortHandler}>Sort</button>
+        </div>
+
         {show && <CreateTasks />}
         <div className="auto"> 
         <button className="button-20" onClick={showHandler}>Add Tasks</button>
@@ -210,11 +238,13 @@ const Tasks =()=>{
                     <option value ={"Done"+i}>Done</option>
                  </select>
                  <br></br>
-                
+                <div className="del">
                 <button className="button-87" value={data.taskname} onClick={saveHandler}>Save Changes</button> 
                 {/* //used for saving status of work} */}
+                </div>
+                <div className="del">
                 <button className="button-87" value={data.taskname} onClick={deleteHandler}>Delete Changes</button>
-            
+                </div>
                </div>)
                 
         })}

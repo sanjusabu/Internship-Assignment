@@ -98,6 +98,7 @@ const Login = () => {
             Password
           </label>
           {passwordError && <p className='error-text'>Password should be atleast 5 characters long!</p>}
+          {<p style={{color:"red"}}>{isError}</p>}
         </div>
         <br></br>
         <button type="submit" disabled={!formValid} className="submit">

@@ -2,7 +2,7 @@ const TaskModel = require('../models/CreateTask')
 const HttpError = require("../models/http-error");
 
 const create = async(req,res,next)=>{
- console.log(req.body)
+//  console.log(req.body)
 
  const { userid, taskname, taskdes, startDate,endDate,priority,status} = req.body;
  // console.log(req.body)
@@ -60,7 +60,7 @@ const getTasks = async(req,res,next)=>{
 const updateTasks= async(req,res,next)=>{
       const {userid,taskname,status}=req.body
       let newstatus= status.slice(0,status.length-1)
-      console.log(newstatus)
+      // console.log(newstatus)
    
           await TaskModel.updateOne({userid:userid,taskname:taskname},{$set:{status:newstatus}})
        
@@ -68,14 +68,29 @@ const updateTasks= async(req,res,next)=>{
       if(tasks){
       res.json(true)
       }
-      console.log(tasks);
+      // console.log(tasks);
 }
 
 const deleteTasks = async(req,res,next)=>{
   const {userid,taskname}=req.body
   await TaskModel.deleteOne({userid:userid,taskname:taskname})
 }
+
+const sortTasks = async(req,res,next)=>{
+  // console.log(req.body)
+  const {userid,status} =  req.body
+  try{
+  const sorted = await TaskModel.find({userid:userid,status:status})
+  res.json({sorted})
+  }
+  catch(err){
+    console.log(err)
+  }
+
+}
+
 exports.create= create
 exports.getTasks= getTasks
 exports.updateTasks= updateTasks
 exports.deleteTasks=deleteTasks
+exports.sortTasks=sortTasks

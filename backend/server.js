@@ -32,7 +32,7 @@ app.use((error, req, res, next) => {
   res.json({ message: error.message || "An unknown error occurred!" });
 });
 
-console.log(process.env.USER,process.env.DATABASE)
+// console.log(process.env.USER,process.env.DATABASE)
 const dbUrl ="mongodb+srv://"+process.env.USER+":"+process.env.PASSWORD+"@cluster0.f8yjf.mongodb.net/"+process.env.DATABASE+"?retryWrites=true&w=majority";
 mongoose.connect(dbUrl, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => {

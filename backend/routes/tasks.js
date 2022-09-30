@@ -7,5 +7,6 @@ router.post('/create',tasksController.create);
 router.post('/getTasks',tasksController.getTasks);
 router.post('/updateTasks',tasksController.updateTasks);
 router.post('/deleteTasks',tasksController.deleteTasks);
+router.post('/sortTasks',tasksController.sortTasks);
 
 module.exports = router;

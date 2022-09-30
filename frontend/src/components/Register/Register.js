@@ -3,6 +3,9 @@ import useInput from "../../hooks/useInput";
 import { useRequest } from "../../hooks/request-hook";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+// import ErrorModal from "../../Design/UIElements/ErrorModal"
+import { useState } from "react";
+// import { setDriver } from "mongoose";
 
 const isNotEmpty = value =>value.trim() !== '';
 const isEmail = value => value.includes('@');
@@ -15,6 +18,8 @@ const Register =()=>
 {
   const navigate = useNavigate()
   const {isError,clearError,sendRequest} =  useRequest()
+  const [mess,setmess] = useState('')
+  const [err,seterr] = useState(false)
   // const auth = useContext(AuthContext)
     const {
       value: nameValue,
@@ -84,7 +89,9 @@ const Register =()=>
           }),
           {'Content-Type': 'application/json'}
           )
-          
+          seterr(true)
+          console.log(response.message)
+          setmess(response.message)
         // console.log(nameValue,emailValue,passwordValue,numberValue)
         navigate('/login')
         resetName()
@@ -95,6 +102,8 @@ const Register =()=>
     return(
     <>
     {/* <NavBar /> */}
+    {/* <ErrorModal error={isError} onClear={clearError} /> */}
+    
     <form onSubmit={submitHandler}>
     <div className="form">
     <div className="title">Registration Form</div>
@@ -146,11 +155,13 @@ const Register =()=>
       <label for="mobile" className="placeholder">Mobile Number</label>
       {numberError && <p className='error-text'>Mobile Number should have 10 digits!</p>}
 
+  {<p style={{color:"red"}}>{isError}</p>}
     </div>
     <button type="submit" disabled={!formValid} className="submit">Submit</button>
 
    <Link to="/login"><button className="submit">Switch to Login</button></Link>
   </div>
+  {mess}
   </form>
   </>
     )

@@ -3,7 +3,7 @@ const HttpError = require("../models/http-error");
 const bcrypt = require('bcrypt')
 const signup = async (req, res, next) => {
   
-  console.log('iuhujhj')
+  // console.log('iuhujhj')
   const { name, email, password, mobile } = req.body;
   let existingEmail;
   let existingMobile;
@@ -56,7 +56,7 @@ const login = async (req, res, next) => {
     existingUser = await UserModel.findOne({ email: email });
   } catch (err) {
     const error = new HttpError(
-      "Login failed, check your crednetials or signup.",
+      "Login failed, check your credentials or signup.",
       500
     );
     return next(error);
