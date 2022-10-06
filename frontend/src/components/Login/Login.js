@@ -55,7 +55,7 @@ const Login = () => {
       { "Content-Type": "application/json" }
     );
 
-    console.log(response);
+    // console.lo(isError);
     auth.login(response.user.id);
     navigate('/tasks')
     resetEmail();
@@ -63,6 +63,7 @@ const Login = () => {
   };
   return (
     <form onSubmit={submitHandler}>
+      {/* {console.log(isError)} */}
       <div className="form">
         <div className="title">Login</div>
 
@@ -101,6 +102,7 @@ const Login = () => {
           {<p style={{color:"red"}}>{isError}</p>}
         </div>
         <br></br>
+        {console.log(isError)}
         <button type="submit" disabled={!formValid} className="submit">
           Submit
         </button>
